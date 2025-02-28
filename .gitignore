@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+venv/
+env/
+
+# Environment variables and secrets
+.env
+*.env
+config.json
+credentials.json
+
+# IDE settings
+.vscode/
+
+# Logs and debug files
+logs/
+*.log
+debug.log
+
+# Build and distribution artifacts
+build/
+dist/
+*.egg-info/
+
+# Dependency folders
+pip-wheel-metadata/
