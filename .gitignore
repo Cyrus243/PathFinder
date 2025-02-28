@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#personal files
+notes.txt
+
+#environnement
 venv/
 env/
 
