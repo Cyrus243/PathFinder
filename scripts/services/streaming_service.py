@@ -10,7 +10,7 @@ PACKET_SIZE=60000 # UDP packet size
 MAX_PACKET_ID=256 # packet idx max value
 
 
-class NetworkService:
+class StreamingService:
     keep_streaming = False
     
     def startSteaming(self, camera: Camera):
