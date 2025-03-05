@@ -1,4 +1,6 @@
 import lgpio
+import math
+import constants
 
 # Define GPIO pins for motor control
 # PWM pins
@@ -117,6 +119,7 @@ class MotorDriver():
         lgpio.gpio_write(self.handle, MOTOR_D_IN2, 0)
         
     def run(self, x, y):
+        print("The method had been called !")
         if (y > 0):
             self.go_forward()
         elif (y < 0):
@@ -124,6 +127,16 @@ class MotorDriver():
         else: 
             self.stop()
         self.set_motor_speed(x, y)
+        
+    def run_button_command(self, command):
+        match command:
+            case constants.X_BUTTON:
+                self.stop()
+                return 
+            case constants.SQUARE_BUTTON:
+                self.left_in_place_rotation()
+                self.set_motor_speed(0, 7)
+                return
         
     def set_motor_speed(self, x, y):
         max_speed = 90
@@ -141,6 +154,24 @@ class MotorDriver():
         # Set PWM duty cycle (0 to 100)
         lgpio.tx_pwm(self.handle, DVR_1_MOTOR_PWM, PWM_FREQUENCY, abs(left_speed))
         lgpio.tx_pwm(self.handle, DVR_2_MOTOR_PWM, PWM_FREQUENCY, abs(right_speed))
+        
+    def command_parser(self, data):
+        command_type = "".join(str(x) for x in data[1:4])
+        match command_type:
+            case constants.RIGHT_JOYSTICK_COMMAND_ID:
+                angle = (data[6] >> 3)*15
+                radius = data[6] & 0x07
+                
+                x_value = radius*(float(math.cos(float(angle*math.pi/180))))
+                y_value = radius*(float(math.sin(float(angle*math.pi/180))))
+                self.motor_driver.run(x_value, y_value)
+                return
+            case constants.BUTTON_COMMAND_ID:
+                self.run_button_command(data[5])
+                return
+    
+                
+                
         
     def cleanup_gpio(self):
         if not self.handle:
@@ -161,3 +192,5 @@ class MotorDriver():
         lgpio.gpio_write(self.handle, MOTOR_D_IN2, 0)
         
         lgpio.gpiochip_close(self.handle)
+        
+    

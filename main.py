@@ -1,6 +1,6 @@
 from scripts.core.camera import Camera
 from scripts.services.streaming_service import StreamingService
-from scripts.services.controller_service import ControllerWifiServer
+from scripts.services.controller_tcp_service import ControllerWifiServer
 from scripts.core.motor_driver import MotorDriver
 from scripts.services.bluethooth.service import Application
 from scripts.services.ble_service import ControllerService, ControllerAdvertisement
@@ -22,8 +22,11 @@ def launch_ble_server():
      
 
 def main():
-    controller_server = ControllerWifiServer()
+    motor_driver = MotorDriver()
+    controller_server = ControllerWifiServer(motor_driver)
     controller_server.run()
+    
+    motor_driver.cleanup_gpio()
     
     #camera = Camera()
     #networkService = NetworkService()
