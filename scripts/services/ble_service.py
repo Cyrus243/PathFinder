@@ -2,10 +2,9 @@ import dbus
 
 from .bluethooth.advertisement import Advertisement
 from .bluethooth.service import Service, Characteristic, Descriptor
-from scripts.core.motor_driver import MotorDriver
 #from gpiozero import CPUTemperature  - il servira quand il faudra construire le dashboard
 from constants import GATT_CHRC_IFACE, NOTIFY_TIMEOUT
-from constants import JOYSTICK_COMMAND_ID
+from constants import RIGHT_JOYSTICK_COMMAND_ID
 import math
 
 
@@ -41,7 +40,7 @@ class ControllerCharacteristic(Characteristic):
             data = [int(byte) for byte in data]
             command_type = "".join(str(x) for x in data[1:5])
 
-            if command_type == JOYSTICK_COMMAND_ID:
+            if command_type == RIGHT_JOYSTICK_COMMAND_ID:
                 angle = (data[6] >> 3)*15
                 radius = data[6] & 0x07
                 
