@@ -1,9 +1,8 @@
 import socket
-from constants import RIGHT_JOYSTICK_COMMAND_ID
-import math
 
 HOST="0.0.0.0"
 PORT=3000 
+QUIT_MESSAGE="quit"
     
 class ControllerWifiServer:
     
@@ -35,6 +34,7 @@ class ControllerWifiServer:
             print("The connection have been close bruptly")
         except KeyboardInterrupt:
             print("The user close the server")
+            client_socket.sendall(QUIT_MESSAGE.encode())
         except IndexError:
             print("The client is disconnected !")
         finally:

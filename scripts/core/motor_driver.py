@@ -119,7 +119,6 @@ class MotorDriver():
         lgpio.gpio_write(self.handle, MOTOR_D_IN2, 0)
         
     def run(self, x, y):
-        print("The method had been called !")
         if (y > 0):
             self.go_forward()
         elif (y < 0):
@@ -158,13 +157,13 @@ class MotorDriver():
     def command_parser(self, data):
         command_type = "".join(str(x) for x in data[1:4])
         match command_type:
-            case constants.RIGHT_JOYSTICK_COMMAND_ID:
+            case constants.LEFT_JOYSTICK_COMMAND_ID:
                 angle = (data[6] >> 3)*15
                 radius = data[6] & 0x07
                 
                 x_value = radius*(float(math.cos(float(angle*math.pi/180))))
                 y_value = radius*(float(math.sin(float(angle*math.pi/180))))
-                self.motor_driver.run(x_value, y_value)
+                self.run(x_value, y_value)
                 return
             case constants.BUTTON_COMMAND_ID:
                 self.run_button_command(data[5])
