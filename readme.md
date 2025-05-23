@@ -1,4 +1,4 @@
-# Mini-Rover Project (Work In Progress)
+# Mini-Rover Project
 
 ## Overview
 This project is a **mini-rover** built on a **Raspberry Pi 5**, using the **CoKoino chassis** and the **CoKoino Pi Power 4WD Hat**. The rover is controlled remotely via an **Android gamepad app** over a **TCP socket connection**. Additionally, it is equipped with a **PiCamera**, enabling **real-time video streaming** over a **UDP socket**.
